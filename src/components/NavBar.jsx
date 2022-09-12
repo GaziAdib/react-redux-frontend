@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navbar, Nav,Container } from 'react-bootstrap'
 import  { NavLink } from 'react-router-dom'
+import Searchbox from './Searchbox'
 
 const NavBar = () => {
   return (
@@ -14,6 +15,7 @@ const NavBar = () => {
             <Nav.Link><NavLink to='/'>Home</NavLink></Nav.Link> 
           </Nav>
         </Navbar.Collapse>
+        <Searchbox/>
       </Container>
     </Navbar>
   )

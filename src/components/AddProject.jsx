@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { addProject, listProjects } from '../actions/projectAction';
 import { useNavigate } from 'react-router-dom';
+import { useAddProjectMutation } from '../rtk-query/features/project/api/apiSlice';
+
+
 
 
 const AddProject = () => {
@@ -14,8 +15,8 @@ const AddProject = () => {
  const [description, setDescription] = useState('');
  const [demo, setDemo] = useState('');
 
+ const [addProject] = useAddProjectMutation();
 
- const dispatch = useDispatch();
  const navigate = useNavigate();
 
 // to clear all data
@@ -27,27 +28,20 @@ const AddProject = () => {
     setDemo("");
  }
 
-
-
- // when submittting project data
- const projectSubmitHandler = async (e) => {
+ const projectSubmitHandler = (e) => {
     
     e.preventDefault();
   
-   let formData = new FormData();
+    let formData = new FormData();
     formData.append('thumbnail', thumbnail)
     formData.append('title', title)
     formData.append('category', category)
     formData.append('description', description)
     formData.append('demo', demo)
 
-    // pass form data to api using actions
-
-    dispatch(addProject(formData));
+    addProject(formData);
 
     clearData();
-
-    dispatch(listProjects())
 
     navigate('/');
 
@@ -59,7 +53,7 @@ const AddProject = () => {
         <h1>Add Project</h1>
         <hr />
         <div>
-        <Form onSubmit={projectSubmitHandler} encType="multipart/form-data">
+        <Form onSubmit={projectSubmitHandler}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Control type="text" placeholder="Enter Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
             </Form.Group>
